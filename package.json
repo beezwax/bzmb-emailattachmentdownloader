@@ -1,0 +1,16 @@
+{
+  "name": "bzmb-emailattachmentdownloader",
+  "version": "0.1.0",
+  "description": "A microbond for bzBond server to download email attachments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "author",
+  "license": "MIT",
+  "dependencies": {
+    "base64-stream": "^1.0.0",
+    "concat-stream": "^2.0.0",
+    "imapflow": "^1.0.144"
+  }
+}
