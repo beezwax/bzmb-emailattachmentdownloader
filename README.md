@@ -50,7 +50,7 @@ In a server-side FileMaker script run `bzBondRelay` script with parameters in th
     "imapConfig": "object"
 
     // Optional. The mail folder to move processed emails to
-    "processedFolders": "string"
+    "processedFolder": "string"
   }
 }
 
