@@ -58,3 +58,30 @@ In a server-side FileMaker script run `bzBondRelay` script with parameters in th
 
 The attachments and filenames can be accessed in a JSON array via `Get ( ScriptResult )`:
 `JSONGetElement ( Get ( ScriptResult ); "response.result" )`
+
+## bzmb-emailattachmentdownloader-getMessagesWithAttachments
+
+In a server-side FileMaker script run `bzBondRelay` script with parameters in the following format:
+
+```
+{
+  "mode": "PERFORM_JAVASCRIPT",
+
+  "route": "bzmb-emailattachmentdownloader-getMessagesWithAttachments",
+
+  "customMethod": "POST",
+
+  "customBody": {
+    
+    // Required. The imap config object. See https://imapflow.com/module-imapflow-ImapFlow.html#ImapFlow for details
+    "imapConfig": "object"
+
+    // Optional. The mail folder to move processed emails to
+    "processedFolder": "string"
+  }
+}
+
+```
+
+The messages with attachments can be accessed in a JSON array via `Get ( ScriptResult )`:
+`JSONGetElement ( Get ( ScriptResult ); "response.result" )`
