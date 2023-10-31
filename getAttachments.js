@@ -1,7 +1,7 @@
 const { ImapFlow } = require('imapflow');
 
 const getAttachments = async (config) => {
-  const { imapConfig, processedFolder, errorFolder } = config;
+  const { imapConfig, processedFolder, errorFolder, includeRead } = config;
   const client = new ImapFlow(imapConfig);
 
   const childNodes = [];
@@ -12,7 +12,7 @@ const getAttachments = async (config) => {
   let lock = await client.getMailboxLock('INBOX');
 
   try {
-    const messageGenerator = client.fetch({seen: false}, { source: true, bodyStructure: true });
+    const messageGenerator = client.fetch(includeRead ? "1:*" : {seen: false}, { source: true, bodyStructure: true });
 
     for await (const message of messageGenerator) {
 

@@ -3,7 +3,7 @@ const getMessagesWithAttachments = require("./getMessagesWithAttachments.js");
 
 const args = process.argv.slice(2);
 
-const [ path, host, port, user, pass, processedFolder ] = args;
+const [ path, host, port, user, pass, processedFolder, includeRead ] = args;
 
 (async () => {
 
@@ -19,7 +19,8 @@ const [ path, host, port, user, pass, processedFolder ] = args;
       tls: { rejectUnauthorized: false },
       logger: false
     },
-    processedFolder
+    processedFolder,
+    includeRead
   }
   switch (path) {
     case "getAttachments":
