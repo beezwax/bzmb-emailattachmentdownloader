@@ -74,10 +74,13 @@ In a server-side FileMaker script run `bzBondRelay` script with parameters in th
   "customBody": {
     
     // Required. The imap config object. See https://imapflow.com/module-imapflow-ImapFlow.html#ImapFlow for details
-    "imapConfig": "object"
+    "imapConfig": object,
 
     // Optional. The mail folder to move processed emails to
-    "processedFolder": "string"
+    "processedFolder": "string",
+
+    // Optional. Also process read mails in the Inbox. Default is false
+    "includeRead": boolean
   }
 }
 
