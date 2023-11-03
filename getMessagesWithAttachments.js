@@ -41,7 +41,11 @@ const getMessagesWithAttachments = async (config) => {
       const { meta, content } = await client.download(childNode.uid, childNode.part, {uid: true});
       const base64Content = await streamToBase64(content);
       const message = messages.find(message => message.uid === childNode.uid);
-      message.attachments.push({filename: meta.filename, data: base64Content});
+      let filename = meta.filename;
+      if (filename.substring(0, 2) === "=?") {
+        filename = atob(filename.split("?B?")[1].slice(0, -2));
+      }
+      message.attachments.push({filename, data: base64Content});
     }
 
     for (const textNode of textNodes) {
