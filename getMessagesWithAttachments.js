@@ -29,10 +29,17 @@ const getMessagesWithAttachments = async (config) => {
       });
 
       message.bodyStructure.childNodes.forEach(node => {
+        console.log(node.childNodes);
         if (node.disposition === "attachment") {
           childNodes.push({uid: message.uid, part: node.part});
         } else if (node.type === "text/plain" || node.type === "text/html") {
           textNodes.push({uid: message.uid, part: node.part});
+        } else if (node.childNodes) {
+          node.childNodes.forEach(childNode => {
+            if(childNode.disposition) {
+              childNodes.push({uid: message.uid, part: childNode.part});
+            }
+          })
         }
       });
     }
