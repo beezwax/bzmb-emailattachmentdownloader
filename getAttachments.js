@@ -17,7 +17,7 @@ const getAttachments = async (config) => {
     for await (const message of messageGenerator) {
 
       message.bodyStructure.childNodes.forEach(node => {
-        if (node.disposition === "attachment") {
+        if (node.disposition === "attachment" || node.disposition === "inline") {
           childNodes.push({uid: message.uid, part: node.part});
         } else if (node.childNodes) {
           node.childNodes.forEach(childNode => {

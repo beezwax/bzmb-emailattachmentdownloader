@@ -29,15 +29,14 @@ const getMessagesWithAttachments = async (config) => {
       });
 
       message.bodyStructure.childNodes.forEach(node => {
-        console.log(node.childNodes);
-        if (node.disposition === "attachment") {
-          childNodes.push({uid: message.uid, part: node.part});
+        if (node.disposition === "attachment" || node.disposition === "inline") {
+          childNodes.push({uid: message.uid, part: node.part, disposition: node.disposition});
         } else if (node.type === "text/plain" || node.type === "text/html") {
           textNodes.push({uid: message.uid, part: node.part});
         } else if (node.childNodes) {
           node.childNodes.forEach(childNode => {
             if(childNode.disposition) {
-              childNodes.push({uid: message.uid, part: childNode.part});
+              childNodes.push({uid: message.uid, part: childNode.part, disposition: childNode.disposition});
             }
           })
         }
@@ -108,6 +107,24 @@ const streamToBase64 = (stream) => {
       .on('error', (error) => {
         reject(error)
       })
+  })
+}
+
+function streamToString (stream) {
+  const chunks = [];
+  return new Promise((resolve, reject) => {
+    stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+    stream.on('error', (err) => reject(err));
+    stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+  })
+}
+
+function streamToFile (stream) {
+  const chunks = [];
+  return new Promise((resolve, reject) => {
+    stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+    stream.on('error', (err) => reject(err));
+    stream.on('end', () => resolve(Buffer.concat(chunks)));
   })
 }
 
