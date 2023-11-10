@@ -17,7 +17,7 @@ const getMessagesWithAttachments = async (config) => {
 
     for await (const message of messageGenerator) {
 
-      messages.push({
+      const messageResult = {
         subject: message.envelope.subject,
         date: message.envelope.date,
         from: message.envelope.from,
@@ -26,9 +26,9 @@ const getMessagesWithAttachments = async (config) => {
         bcc: message.envelope.bcc,
         uid: message.uid,
         attachments: []
-      });
+      };
 
-      message.bodyStructure.childNodes.forEach(node => {
+      message.bodyStructure.childNodes?.forEach(node => {
         if (node.disposition === "attachment" || node.disposition === "inline") {
           childNodes.push({uid: message.uid, part: node.part, disposition: node.disposition});
         } else if (node.type === "text/plain" || node.type === "text/html") {
@@ -41,6 +41,12 @@ const getMessagesWithAttachments = async (config) => {
           })
         }
       });
+      
+      if (!childNodes.length && !textNodes.length) {
+        messageResult.body = message.source.slice(message.bodyStructure.size * -1).toString()
+      }
+
+      messages.push(messageResult);
     }
 
     for (const childNode of childNodes) {
