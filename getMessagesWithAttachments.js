@@ -54,7 +54,11 @@ const getMessagesWithAttachments = async (config) => {
       const base64Content = await streamToBase64(content);
       const message = messages.find(message => message.uid === childNode.uid);
       let filename = meta.filename;
-      if (filename.substring(0, 2) === "=?") {
+      if(!filename && meta.contentType === "message/rfc822") {
+        filename = `embedded_message_${Math.random().toString().slice(-5)}.eml`;
+      } else if (!filename) { 
+        filename = `unknown_file_${Math.random().toString().slice(-5)}`;
+      } else if (filename.substring(0, 2) === "=?") {
         filename = atob(filename.split("?B?")[1].slice(0, -2));
       }
       message.attachments.push({filename, data: base64Content});
