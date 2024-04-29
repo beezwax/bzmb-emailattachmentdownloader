@@ -1,7 +1,7 @@
 const { ImapFlow } = require('imapflow');
 
 const getAttachments = async (config) => {
-  const { imapConfig, processedFolder, errorFolder, includeRead } = config;
+  const { imapConfig, processedFolder, errorFolder, includeRead, readOnly } = config;
   const client = new ImapFlow(imapConfig);
 
   const childNodes = [];
@@ -47,10 +47,12 @@ const getAttachments = async (config) => {
     const targetMessages = childNodes.map(childNode => childNode.uid).filter((uid, index, arr) => arr.indexOf(uid === index)).join(",");
 
     // Mark processed messages read
-    await client.messageFlagsSet(targetMessages, ["\\Seen"], {uid: true});
+    if (!readOnly) {
+      await client.messageFlagsSet(targetMessages, ["\\Seen"], {uid: true});
+    }
   
     // Move processed messages to processed folder if provided
-    if (processedFolder) {
+    if (processedFolder && !readOnly) {
       await client.messageMove(targetMessages, processedFolder, {uid: true});
     }
     
