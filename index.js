@@ -33,6 +33,8 @@ const getAttachmentsSchema = {
         }
       },
       processedFolder: { type: "string" },
+      includeRead: { type: "boolean" },
+      readOnly: { type: "boolean" },
       errorFolder: { type: "string" }
     }
   }
@@ -70,6 +72,8 @@ const getMessagesWithAttachmentsSchema = {
         }
       },
       processedFolder: { type: "string" },
+      includeRead: { type: "boolean" },
+      readOnly: { type: "boolean" },
       errorFolder: { type: "string" }
     }
   }
