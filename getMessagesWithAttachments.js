@@ -32,12 +32,10 @@ const getMessagesWithAttachments = async (config) => {
         if (node.disposition === "attachment" || node.disposition === "inline") {
           childNodes.push({uid: message.uid, part: node.part, disposition: node.disposition});
         } else if (node.type === "text/plain" || node.type === "text/html") {
-          textNodes.push({uid: message.uid, part: node.part});
+          textNodes.push({uid: message.uid, part: node.part, type: node.type});
         } else if (node.childNodes) {
           node.childNodes.forEach(childNode => {
-            if(childNode.disposition) {
-              childNodes.push({uid: message.uid, part: childNode.part, disposition: childNode.disposition});
-            }
+            handleNestedNode(childNode, childNodes, textNodes, message);
           })
         }
       });
@@ -69,6 +67,19 @@ const getMessagesWithAttachments = async (config) => {
       const base64Content = await streamToBase64(content);
       const messageBody = atob(base64Content);
       const message = messages.find(message => message.uid === textNode.uid);
+      if (textNode.type === "text/html") {
+        if (message.bodyHTML) {
+          message.bodyHTML += messageBody;
+        } else {
+          message.bodyHTML = messageBody;
+        }
+      } else {
+        if (message.bodyText) {
+          message.bodyText += messageBody;
+        } else {
+          message.bodyText = messageBody;
+        }
+      }
       if (message.body) {
         message.body += messageBody;
       } else {
@@ -138,6 +149,16 @@ function streamToFile (stream) {
     stream.on('error', (err) => reject(err));
     stream.on('end', () => resolve(Buffer.concat(chunks)));
   })
+}
+
+function handleNestedNode (node, childNodes, textNodes, message) {
+  if (node.childNodes) {
+    node.childNodes.forEach(node => handleNestedNode(node, childNodes, textNodes, message))
+  } else if (node.disposition) {
+    childNodes.push({uid: message.uid, part: node.part, disposition: node.disposition});
+  } else if (node.type === "text/plain" || node.type === "text/html") {
+    textNodes.push({uid: message.uid, part: node.part, type: node.type});
+  }
 }
 
 module.exports = getMessagesWithAttachments;
