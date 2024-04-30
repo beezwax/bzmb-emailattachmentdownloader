@@ -53,7 +53,10 @@ In a server-side FileMaker script run `bzBondRelay` script with parameters in th
     "processedFolder": "string",
 
     // Optional. Also process read mails in the Inbox. Default is false
-    "includeRead": boolean
+    "includeRead": boolean,
+
+    // Optional. Do not mark emails as read or move them. Default is false
+    "readOnly": boolean
   }
 }
 
@@ -83,7 +86,10 @@ In a server-side FileMaker script run `bzBondRelay` script with parameters in th
     "processedFolder": "string",
 
     // Optional. Also process read mails in the Inbox. Default is false
-    "includeRead": boolean
+    "includeRead": boolean,
+
+    // Optional. Do not mark emails as read or move them. Default is false
+    "readOnly": boolean
   }
 }
 
