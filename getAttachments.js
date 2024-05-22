@@ -31,16 +31,18 @@ const getAttachments = async (config) => {
 
     for (const childNode of childNodes) {
       const { meta, content } = await client.download(childNode.uid, childNode.part, {uid: true});
-      const base64Content = await streamToBase64(content);
-      let filename = meta.filename;
-      if(!filename && meta.contentType === "message/rfc822") {
-        filename = `embedded_message_${Math.random().toString().slice(-5)}.eml`;
-      } else if (!filename) { 
-        filename = `unknown_file_${Math.random().toString().slice(-5)}`;
-      } else if (filename.substring(0, 2) === "=?") {
-        filename = atob(filename.split("?B?")[1].slice(0, -2));
+      if (content) {
+        const base64Content = await streamToBase64(content);
+        let filename = meta.filename;
+        if(!filename && meta.contentType === "message/rfc822") {
+          filename = `embedded_message_${Math.random().toString().slice(-5)}.eml`;
+        } else if (!filename) { 
+          filename = `unknown_file_${Math.random().toString().slice(-5)}`;
+        } else if (filename.substring(0, 2) === "=?") {
+          filename = atob(filename.split("?B?")[1].slice(0, -2));
+        }
+        attachments.push({filename: meta.filename, data: base64Content});
       }
-      attachments.push({filename: meta.filename, data: base64Content});
     }
 
     // Get UUIDs of processed messagges
