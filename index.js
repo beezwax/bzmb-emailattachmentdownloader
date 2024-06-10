@@ -84,7 +84,6 @@ async function bzmbEmailattachmentdownloader(fastify, options) {
     "/bzmb-emailattachmentdownloader-getAttachments",
     { schema: getAttachmentsSchema },
     async (req, res) => {
-    req.body;
     try {
       const attachments = await getAttachments(req.body);
       res
@@ -101,7 +100,6 @@ async function bzmbEmailattachmentdownloader(fastify, options) {
     "/bzmb-emailattachmentdownloader-getMessagesWithAttachments",
     { schema: getMessagesWithAttachmentsSchema },
     async (req, res) => {
-    req.body;
     try {
       const messages = await getMessagesWithAttachments(req.body);
       res
