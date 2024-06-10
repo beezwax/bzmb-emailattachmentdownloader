@@ -13,7 +13,7 @@ const getMessagesWithAttachments = async (config) => {
   let lock = await client.getMailboxLock('INBOX');
 
   try {
-    const messageGenerator = client.fetch(includeRead ? "1:*" : {seen: false}, { envelope: true, source: true, bodyStructure: true });
+    const messageGenerator = client.fetch(includeRead ? {all: true} : {seen: false}, { envelope: true, source: true, bodyStructure: true });
 
     for await (const message of messageGenerator) {
 
