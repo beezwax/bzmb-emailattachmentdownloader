@@ -11,6 +11,6 @@
   "dependencies": {
     "base64-stream": "^1.0.0",
     "concat-stream": "^2.0.0",
-    "imapflow": "^1.0.144"
+    "imapflow": "^1.0.162"
   }
 }
