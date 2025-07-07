@@ -14,13 +14,15 @@ const getAttachmentsSchema = {
           port: { type: "number" },
           auth: {
             type: "object",
-            user: { type: "string" },
-            pass: { type: "string" },
-            accessToken: { type: "string" },
             oneOf: [
               { required: ["user", "pass"] },
               { required: ["accessToken"] },
             ],
+            properties: {
+              user: { type: "string" },
+              pass: { type: "string" },
+              accessToken: { type: "string" },
+            },
           },
           tls: { type: "object" },
           logger: { type: "boolean" },
@@ -47,13 +49,15 @@ const getMessagesWithAttachmentsSchema = {
           port: { type: "number" },
           auth: {
             type: "object",
-            user: { type: "string" },
-            pass: { type: "string" },
-            accessToken: { type: "string" },
             oneOf: [
               { required: ["user", "pass"] },
               { required: ["accessToken"] },
             ],
+            properties: {
+              user: { type: "string" },
+              pass: { type: "string" },
+              accessToken: { type: "string" },
+            },
           },
           tls: { type: "object" },
           logger: { type: "boolean" },
