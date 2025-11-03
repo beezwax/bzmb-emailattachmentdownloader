@@ -1,6 +1,6 @@
 {
   "name": "bzmb-emailattachmentdownloader",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A microbond for bzBond server to download email attachments",
   "main": "index.js",
   "scripts": {
