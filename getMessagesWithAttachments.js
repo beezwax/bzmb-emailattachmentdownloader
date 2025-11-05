@@ -75,10 +75,13 @@ const getMessagesWithAttachments = async (config) => {
         }
       });
 
-      if (!childNodes.length && !textNodes.length) {
-        messageResult.body = message.source
+      if (!message.bodyStructure.childNodes) {
+        const bodyContent = message.source
           .slice(message.bodyStructure.size * -1)
           .toString();
+        messageResult[
+          message.bodyStructure.type === "text/html" ? "bodyHTML" : "body"
+        ] = bodyContent;
       }
 
       messages.push(messageResult);
